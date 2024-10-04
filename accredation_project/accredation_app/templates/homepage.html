@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Homepage{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">Welcome to the Accreditation Application System</h1>
+    <p class="lead">Please register or login to continue.</p>
+    <hr class="my-4">
+    <a class="btn btn-red btn-lg" href="{% url 'register' %}" role="button">Register</a>
+    <a class="btn btn-green btn-lg" href="{% url 'login' %}" role="button">Login</a>
+</div>
+{% endblock %}

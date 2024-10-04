@@ -1,0 +1,38 @@
+<!-- accreditation_app/templates/accreditation_app/applications_list.html -->
+{% extends 'base.html' %}
+
+{% block title %}Applications List{% endblock %}
+
+{% block content %}
+    <h1>Applications List</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Institution Name</th>
+                <th>Contact Person</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Accreditation Type</th>
+                <th>Approval Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for application in applications %}
+                <tr>
+                    <td>{{ application.id }}</td>
+                    <td>{{ application.institution_name }}</td>
+                    <td>{{ application.contact_person }}</td>
+                    <td>{{ application.email }}</td>
+                    <td>{{ application.phone }}</td>
+                    <td>{{ application.accreditation_type.name }}</td>
+                    <td>{{ application.is_approved }}</td>
+                    <td>
+                        <a href="{% url 'approve_application' application.id %}" class="btn btn-primary">Approve</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

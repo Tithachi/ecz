@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Applications{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="h3 mb-3 font-weight-normal text-center">Manage Applications</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Institution Name</th>
+                    <th>Contact Person</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Accreditation Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for application in applications %}
+                <tr>
+                    <td>{{ application.institution_name }}</td>
+                    <td>{{ application.contact_person }}</td>
+                    <td>{{ application.email }}</td>
+                    <td>{{ application.phone }}</td>
+                    <td>{{ application.accreditation_type }}</td>
+                    <td>
+                        <a href="{% url 'approve_application' application.id %}" class="btn btn-success btn-sm">Approve</a>
+                        <a href="{% url 'reject_application' application.id %}" class="btn btn-danger btn-sm">Reject</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

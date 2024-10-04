@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Apply for Accreditation{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="h3 mb-3 font-weight-normal text-center">Local Organization Application</h1>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <fieldset>
+                    <legend>Organization Details</legend>
+                    {{ form.institution_name|as_crispy_field }}
+                    {{ form.institution_abbreviation|as_crispy_field }}
+                    {{ form.registration_number|as_crispy_field }}
+                    {{ form.email|as_crispy_field }}
+                    {{ form.physical_address|as_crispy_field }}
+                </fieldset>
+
+                <fieldset>
+                    <legend>Contact Person Details</legend>
+                    {{ form.last_name|as_crispy_field }}
+                    {{ form.other_names|as_crispy_field }}
+                    {{ form.phone|as_crispy_field }}
+                    {{ form.email|as_crispy_field }}
+                    {{ form.id_number_passport|as_crispy_field }}
+                </fieldset>
+
+                <fieldset>
+                    <legend>Contact Details (Principal Officer of the Organization)</legend>
+                    {{ form.head_of_institution_name|as_crispy_field }}
+                    {{ form.designation|as_crispy_field }}
+                    {{ form.head_phone_number|as_crispy_field }}
+                </fieldset>
+
+                <fieldset>
+                    <legend>Documents for Upload</legend>
+                    {{ form.organizational_registration|as_crispy_field }}
+                    {{ form.introduction_letter|as_crispy_field }}
+                </fieldset>
+
+                <button class="btn btn-red btn-block" type="submit">Submit Application</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

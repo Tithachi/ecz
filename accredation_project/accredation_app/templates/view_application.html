@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+<!-- view_application.html -->
+
+{% block title %}View Application{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="h3 mb-3 font-weight-normal text-center">Application Details</h1>
+    <div class="card">
+        <div class="card-body">
+            <!-- If the application is from AccreditationApplication -->
+            {% if application %}
+                <h5 class="card-title">Full Name: {{ application.last_name }} {{ application.other_names }}</h5>
+                <p class="card-text">Email: {{ application.email }}</p>
+                <p class="card-text">Phone: {{ application.phone }}</p>
+                <p class="card-text">ID/Passport: {{ application.id_number_passport }}</p>
+                <p class="card-text">Address: {{ application.address }}</p>
+                <p class="card-text">Status: {{ application.status }}</p>
+
+                <!-- Documents for international applications -->
+                <h6>Documents</h6>
+                {% if application.declaration_of_election_observer_monitor %}
+                    <p><a href="{{ application.declaration_of_election_observer_monitor.url }}" target="_blank">Declaration of Election Observer Monitor</a></p>
+                {% endif %}
+                {% if application.declaration_of_compliance_by_monitors_and_observers %}
+                    <p><a href="{{ application.declaration_of_compliance_by_monitors_and_observers.url }}" target="_blank">Declaration of Compliance by Monitors</a></p>
+                {% endif %}
+                {% if application.passport %}
+                    <p><a href="{{ application.passport.url }}" target="_blank">Passport Copy</a></p>
+                {% endif %}
+                {% if application.photo %}
+                    <p><a href="{{ application.photo.url }}" target="_blank">Uploaded Photo</a></p>
+                {% endif %}
+            {% endif %}
+            
+            <!-- If the application is from AccreditationApplicationLO -->
+            {% if local_application %}
+                <h5 class="card-title">Institution Name: {{ local_application.institution_name }}</h5>
+                <p class="card-text">Institution Abbreviation: {{ local_application.institution_abbreviation }}</p>
+                <p class="card-text">Contact Person: {{ local_application.last_name }} {{ local_application.other_names }}</p>
+                <p class="card-text">Email: {{ local_application.email }}</p>
+                <p class="card-text">Phone: {{ local_application.phone }}</p>
+                <p class="card-text">Registration Number: {{ local_application.registration_number }}</p>
+                <p class="card-text">Address: {{ local_application.physical_address }}</p>
+                <p class="card-text">Status: {{ local_application.status }}</p>
+
+                <!-- Documents for local applications -->
+                <h6>Documents</h6>
+                <p><a href="{{ local_application.organizational_registration.url }}" target="_blank">Organizational Registration</a></p>
+                <p><a href="{{ local_application.introduction_letter.url }}" target="_blank">Introduction Letter</a></p>
+            {% endif %}
+
+            <!-- Actions: Approve or Reject -->
+            {% if application.status == 'PENDING' or local_application.status == 'PENDING' %}
+                <a href="{% url 'approve_application' application.id %}" class="btn btn-success btn-sm">Approve</a>
+                <a href="{% url 'reject_application' application.id %}" class="btn btn-danger btn-sm">Reject</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

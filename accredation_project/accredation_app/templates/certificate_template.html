@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Certificate of Accreditation</h1>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">
+                Certificate of Accreditation for 
+                {% if application %}
+                    {{ application.institution_name }}
+                {% elif local_application %}
+                    {{ local_application.institution_name }}
+                {% endif %}
+            </h5>
+            <p><strong>Contact Person:</strong> 
+                {% if application %}
+                    {{ application.contact_person }}
+                {% elif local_application %}
+                    {{ local_application.contact_person }}
+                {% endif %}
+            </p>
+            <p><strong>Email:</strong> 
+                {% if application %}
+                    {{ application.email }}
+                {% elif local_application %}
+                    {{ local_application.email }}
+                {% endif %}
+            </p>
+            <p><strong>Phone:</strong> 
+                {% if application %}
+                    {{ application.phone }}
+                {% elif local_application %}
+                    {{ local_application.phone }}
+                {% endif %}
+            </p>
+            <p><strong>ID/Passport:</strong> 
+                {% if application %}
+                    {{ application.id_number_passport }}
+                {% elif local_application %}
+                    {{ local_application.registration_number }}
+                {% endif %}
+            </p>
+            <p><strong>Address:</strong> 
+                {% if application %}
+                    {{ application.address }}
+                {% elif local_application %}
+                    {{ local_application.physical_address }}
+                {% endif %}
+            </p>
+            <p><strong>Status:</strong> 
+                {% if application %}
+                    {{ application.status }}
+                {% elif local_application %}
+                    {{ local_application.status }}
+                {% endif %}
+            </p>
+
+            <!-- Additional details as needed -->
+            <p>This certifies that the above-mentioned entity has been accredited by our organization.</p>
+            
+            <!-- Signature -->
+            <p>Authorized Signature: ___________________________</p>
+            <p>Date: ______________________________</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

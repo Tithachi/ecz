@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Approve Application{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h1 class="h3 mb-3 font-weight-normal">Approve Application</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-green btn-block" type="submit">Approve</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

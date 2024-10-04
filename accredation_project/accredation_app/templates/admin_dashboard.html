@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="h3 mb-3 font-weight-normal text-center">All Applications</h1>
+
+    <h3>International Accreditation Applications</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Applicant Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for application in accreditation_applications %}
+            <tr>
+                <td>{{ application.last_name }} {{ application.other_names }}</td>
+                <td>{{ application.email }}</td>
+                <td>{{ application.phone }}</td>
+                <td>{{ application.status }}</td>
+                <td>
+                    <a href="{% url 'view_application' application.id %}" class="btn btn-info btn-sm">View</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Local Accreditation Applications</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Institution Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for application in accreditation_lo_applications %}
+            <tr>
+                <td>{{ application.institution_name }}</td>
+                <td>{{ application.email }}</td>
+                <td>{{ application.phone }}</td>
+                <td>{{ application.status }}</td>
+                <td>
+                    <a href="{% url 'view_application_lo' application.id %}" class="btn btn-info btn-sm">View</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

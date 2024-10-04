@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Apply for Accreditation{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="h3 mb-3 font-weight-normal text-center">Accreditation Application</h1>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <fieldset>
+                    <legend>Organization Details</legend>
+                    <p>Please attach clearance from the Ministry of Foreign Affairs and International Cooperation (MOFAIC).</p>
+                    {{ form.mofaic_clearance|as_crispy_field }}
+                </fieldset>
+
+                <fieldset>
+                    <legend>Observer Information</legend>
+                    {{ form.estimated_observers|as_crispy_field }}  <!-- a) Estimated number of observers -->
+                    {{ form.observers_list|as_crispy_field }}  <!-- b) List of names of individual observers/monitors -->
+
+                    <legend>Sponsoring Institution Details</legend>
+                    {{ form.sponsoring_institution_letter|as_crispy_field }}  <!-- c) Introductory letter from sponsoring institution/organization -->
+
+                    <legend>Observer Documents</legend>
+                    <label>Attach the following for each observer:</label>
+                    {{ form.id_document|as_crispy_field }}  <!-- d) Copies of national ID or Passport -->
+                    {{ form.passport_photo|as_crispy_field }}  <!-- e) Passport size photo -->
+                </fieldset>
+
+                <fieldset>
+                    <legend>Stay Information</legend>
+                    {{ form.city_town_district|as_crispy_field }}  <!-- f) Name of city/town/district and lodging facility -->
+                    {{ form.hotel_facility|as_crispy_field }}  <!-- f) Hotel/lodging facility -->
+                    {{ form.duration_of_stay|as_crispy_field }}  <!-- g) Duration of stay in Zambia -->
+                </fieldset>
+
+                <fieldset>
+                    <legend>Observer Mission</legend>
+                    {{ form.mission_statement|as_crispy_field }}  <!-- h) Summary of mission statement -->
+                </fieldset>
+
+                <button class="btn btn-red btn-block" type="submit">Submit Application</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
