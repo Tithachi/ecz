@@ -2,12 +2,110 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.utils import timezone
+
+
+###############################          START OF NEW MODELS        ################################################
+
+class InternationalObserver(models.Model):
+    # Institution details
+    institution_name = models.CharField(max_length=255,null=True, blank=True)  # Institution name
+    institution_abbreviation = models.CharField(max_length=50,null=True, blank=True)  # Institution abbreviation
+    institution_email = models.EmailField(null=True, blank=True)  # Institution email
+    institution_address = models.TextField(null=True, blank=True)  # Physical address of the institution
+    
+    # Contact details
+    contact_last_name = models.CharField(max_length=100,null=True, blank=True)  # Contact person's last name
+    contact_other_names = models.CharField(max_length=150,null=True, blank=True)  # Contact person's other names
+    contact_phone = models.CharField(max_length=15,null=True, blank=True)  # Contact person's phone number
+    contact_nrc_number = models.CharField(max_length=20,null=True, blank=True)  # Contact person's NRC number
+    contact_email = models.EmailField(null=True, blank=True)
+    
+    # Head of Institution
+    head_full_name = models.CharField(max_length=255,null=True, blank=True)  # Full name of the head of the institution
+    head_designation = models.CharField(max_length=100,null=True, blank=True)  # Designation of the head of the institution
+    head_phone = models.CharField(max_length=15,null=True, blank=True)  # Phone number of the head of the institution
+    
+    # Observer-specific fields
+    organization_clearance = models.FileField(upload_to='clearances/')  # PDF upload for clearance from MOFAIC
+    estimated_number_of_observers = models.IntegerField()  # Estimated number of observers
+    observers_list = models.FileField(upload_to='observers_list/')  # CSV upload for list of names
+    introductory_letter = models.FileField(upload_to='introductory_letters/')  # PDF upload for introductory letter
+    identification_docs = models.FileField(upload_to='identifications/')  # PDF upload for ID/Passport copies
+    passport_photo = models.ImageField(upload_to='passport_photos/')  # PNG/JPG upload for passport photo
+    city_of_stay = models.CharField(max_length=100)  # Name of city/town/district in Zambia
+    lodging_facility = models.CharField(max_length=150)  # Name of hotel/lodging facility
+    duration_of_stay = models.IntegerField()  # Duration of stay in days
+    country_of_origin = models.CharField(max_length=100)  # Country of origin
+    city_of_origin = models.CharField(max_length=100)  # City of origin
+    mission_statement = models.TextField()  # Summary of the mission statement of the observer organization
+    
+    # New fields
+    APPROVAL_CHOICES = [
+        ('approved', 'Approved'),
+        ('pending', 'Pending'),
+        ('rejected', 'Rejected'),
+    ]
+    approval = models.CharField(max_length=10, choices=APPROVAL_CHOICES, default='pending')
+    created_on = models.DateTimeField(default=timezone.now)
+    
+    def __str__(self):
+        return f"{self.institution_name} - {self.country_of_origin}"
+    
+    
+    
+class LocalMonitor(models.Model):
+    # Institution details
+    institution_name = models.CharField(max_length=255)  # Institution name
+    institution_abbreviation = models.CharField(max_length=50)  # Institution abbreviation
+    institution_email = models.EmailField()  # Institution email
+    institution_address = models.TextField()  # Physical address of the institution
+    
+    # Contact details
+    contact_last_name = models.CharField(max_length=100)  # Contact person's last name
+    contact_other_names = models.CharField(max_length=150)  # Contact person's other names
+    contact_phone = models.CharField(max_length=15)  # Contact person's phone number
+    contact_email = models.EmailField()  # Contact person's email
+    contact_nrc_number = models.CharField(max_length=20)  # Contact person's NRC number
+    
+    # Head of Institution
+    head_full_name = models.CharField(max_length=255)  # Full name of the head of the institution
+    head_designation = models.CharField(max_length=100)  # Designation of the head of the institution
+    head_phone = models.CharField(max_length=15)  # Phone number of the head of the institution
+    
+    # Monitor-specific fields
+    certificate_of_registration = models.FileField(upload_to='certificates/')  # PDF upload for Certificate of Registration
+    estimated_number_of_monitors = models.IntegerField()  # Estimated number of monitors
+    monitors_list = models.FileField(upload_to='monitors_list/')  # CSV upload for list of names
+    introductory_letter = models.FileField(upload_to='introductory_letters/')  # PDF upload for introductory letter
+    identification_docs = models.FileField(upload_to='identifications/')  # PDF upload for ID/Passport copies
+    passport_photo = models.ImageField(upload_to='passport_photos/')  # PNG/JPG upload for passport photo
+    physical_address = models.CharField(max_length=255)  # Physical Address of the monitor
+    reason_for_application = models.TextField()  # Summary of reasons for applying to monitor election activities
+    
+    # New fields
+    APPROVAL_CHOICES = [
+        ('approved', 'Approved'),
+        ('pending', 'Pending'),
+        ('rejected', 'Rejected'),
+    ]
+    approval = models.CharField(max_length=10, choices=APPROVAL_CHOICES, default='pending')
+    created_on = models.DateTimeField(default=timezone.now)
+
+    
+    def __str__(self):
+        return self.institution_name
+
+
+
+##############################          END OF NEW MODELS          ################################################
 
 class AccreditationType(models.Model):
     name = models.CharField(max_length=255)
 
     def __str__(self):
         return self.name
+    
 
 # class AccreditationApplication(models.Model):
 #     STATUS_CHOICES = [
@@ -94,7 +192,7 @@ class AccreditationApplication(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)  # Record creation time
 
     def __str__(self):
-        return f"Application by {self.sponsoring_institution_letter}"
+        return self.mission_statement
 
 class AccreditationApplicationLO(models.Model):
     STATUS_CHOICES = [

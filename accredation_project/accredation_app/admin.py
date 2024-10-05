@@ -1,20 +1,33 @@
 from django.contrib import admin
-from .models import AccreditationApplication, AccreditationType, Approval, ApprovalSetting
+from .models import InternationalObserver, LocalMonitor
 
-# admin.site.register(AccreditationApplication)
-admin.site.register(AccreditationType)
-admin.site.register(Approval)
-admin.site.register(ApprovalSetting)
-class AccreditationApplicationAdmin(admin.ModelAdmin):
-    list_display = ('sponsoring_institution_letter', 'status', 'approval_date', 'approver_name', 'created_by', 'created_at')
-    list_filter = ('status',)
-    search_fields = ('sponsoring_institution_letter', 'approver_name')
+# Admin configuration for InternationalObserver
+@admin.register(InternationalObserver)
+class InternationalObserverAdmin(admin.ModelAdmin):
+    list_display = (
+        'institution_name', 
+        'institution_abbreviation', 
+        'institution_email', 
+        'country_of_origin', 
+        'duration_of_stay',
+        'head_full_name', 
+        'head_designation'
+    )
+    search_fields = ('institution_name', 'institution_abbreviation', 'country_of_origin')
+    list_filter = ('country_of_origin', 'created_on', 'approval')
+    readonly_fields = ('observers_list', 'organization_clearance', 'introductory_letter', 'identification_docs', 'passport_photo')
 
-    def save_model(self, request, obj, form, change):
-        if not obj.pk:
-            # Automatically set the creator for new objects
-            obj.created_by = request.user
-        super().save_model(request, obj, form, change)
-
-admin.site.register(AccreditationApplication, AccreditationApplicationAdmin)
-# Register your models here.
+# Admin configuration for LocalMonitor
+@admin.register(LocalMonitor)
+class LocalMonitorAdmin(admin.ModelAdmin):
+    list_display = (
+        'institution_name', 
+        'institution_abbreviation', 
+        'institution_email', 
+        'head_full_name', 
+        'head_designation', 
+        'estimated_number_of_monitors'
+    )
+    search_fields = ('institution_name', 'institution_abbreviation', 'head_full_name')
+    list_filter = ('created_on', 'approval')
+    readonly_fields = ('monitors_list', 'certificate_of_registration', 'introductory_letter', 'identification_docs', 'passport_photo')
