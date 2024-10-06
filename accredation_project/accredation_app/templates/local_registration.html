@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Local Registrations{% endblock %}
+
+{% block content %}
+        <main class="h-full pb-16 overflow-y-auto">
+          <div class="container grid px-6 mx-auto">
+            <h2
+              class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
+            >
+              Local Observer Registration
+            </h2>
+            
+
+            <div
+              class="max-w-2xl px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800"
+            >
+            <p class="mb-4 text-gray-600 dark:text-gray-400">
+              To apply as a local election monitor, please ensure you have all the necessary documents ready for upload. 
+              <strong>Your application will require</strong> 
+              <em>a certificate of registration</em> from the Registrar of Societies or PACRA in <code>pdf</code> format. 
+              Additionally, you'll need to upload:
+              <em>a list of individual monitors</em> in <code>csv</code> format, 
+              <em>an introductory letter</em> in <code>pdf</code> format with monitor details, 
+              <em>copies of national identification cards or passports</em> in <code>pdf</code> format, 
+              and <em>a passport-size photo</em> in <code>jpg</code> or <code>png</code> format. 
+              You will also need to provide your institution's full details and contact information.
+          </p>
+
+            </div>
+
+            <div>
+              <a href="/local_form">
+                <button
+                  class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                >
+                  Apply now
+                  <span class="ml-2" aria-hidden="true">&RightArrow;</span>
+                </button>
+              </a>
+            </div>
+            
+          </div>
+        </main>
+      </div>
+    </div>
+    <!-- Modal backdrop. This what you want to place close to the closing body tag -->
+    
+        {% endblock %}

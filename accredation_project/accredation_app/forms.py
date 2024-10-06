@@ -2,9 +2,42 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import AccreditationApplication,AccreditationType, AccreditationApplicationLO
+from .models import AccreditationApplication,AccreditationType, AccreditationApplicationLO, LocalMonitor
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
+
+
+###############################          START OF NEW FORMS        ################################################
+
+class LocalMonitorRegistrationForm(forms.ModelForm):
+    class Meta:
+        model = LocalMonitor
+        fields = [
+            'institution_name',
+            'institution_abbreviation',
+            'institution_email',
+            'institution_address',
+            'contact_last_name',
+            'contact_other_names',
+            'contact_phone',
+            'contact_email',
+            'contact_nrc_number',
+            'head_full_name',
+            'head_designation',
+            'head_phone',
+            'certificate_of_registration',
+            'estimated_number_of_monitors',
+            'monitors_list',
+            'introductory_letter',
+            'identification_docs',
+            'passport_photo',
+            'reason_for_application',
+        ]
+
+
+###############################          START OF NEW FORMS        ################################################
+
+
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()

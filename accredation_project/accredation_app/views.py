@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from .models import AccreditationApplication, Approval, get_approvals_needed
-from .forms import AccreditationApplicationForm, UserRegisterForm, UserLoginForm, ApprovalForm,AccreditationApplicationLOForm
+from .forms import AccreditationApplicationForm, UserRegisterForm, UserLoginForm, ApprovalForm,AccreditationApplicationLOForm, LocalMonitorRegistrationForm
 from django.contrib.auth import logout as auth_logout
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
@@ -25,6 +25,32 @@ from PyPDF2 import PdfReader, PdfWriter
 from .models import AccreditationApplication, AccreditationApplicationLO
 # from django.template.loader import render_to_string
 # from weasyprint import HTML
+
+###############################          START OF NEW VIEWS        ################################################
+
+def local_registration(request):
+    
+    return render(request, 'local_registration.html')
+
+def international_registration(request):
+    return render(request, 'international_registration.html')
+
+def local_form(request):
+    if request.method == 'POST':
+        form = LocalMonitorRegistrationForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('success_url')  # Redirect to a success page
+    else:
+        form = LocalMonitorRegistrationForm()
+    return render(request, 'local_form.html', {'form': form})
+
+
+
+###############################          END OF NEW VIEWS        ################################################
+
+
+
 
 logger = logging.getLogger(__name__)
 def homepage(request):

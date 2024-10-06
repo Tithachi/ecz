@@ -9,6 +9,16 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.homepage, name='homepage'),
+    
+    ###############################          START OF NEW URLS        ################################################
+    
+    path('local_registration/', views.local_registration, name='local_registration'),
+    path('international_registration/', views.international_registration, name='international_registration'),
+    path('local_form/', views.local_form, name='local_form'),
+    
+    ###############################          END OF NEW URLS        ################################################
+    
+    
     path('register/', views.register, name='register'),
     path('login/', views.user_login, name='login'),
     path('logout/', user_logout, name='logout'),
