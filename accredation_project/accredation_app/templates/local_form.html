@@ -14,22 +14,29 @@
            
             <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Institution Information</h2>
-            
-              <label class="block text-sm mt-4">
+
+
+              <form action="{% url 'local_form' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+              <label for="{{ form.institution_name.id_for_label }}" class="block text-sm mt-4">
                 <span class="text-gray-700 dark:text-gray-400">Institution Name</span>
                 <input
+                  type = "text"
+                  name="{{ form.institution_name.name }}" 
+                  id="{{ form.institution_name.id_for_label }}"
                   class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                   required
                 />
               </label>
             
-              <form action="{% url 'local_form' %}" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
+              
                 <div class="flex mt-4 space-x-4"> <!-- Flex container for side-by-side fields -->
                     <div class="flex-1"> <!-- Institution Abbreviation -->
-                        <label class="block text-sm">
+                        <label  for="{{ form.institution_abbreviation.id_for_label }}" class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Institution Abbreviation</span>
                             <input
+                                name="{{ form.institution_abbreviation.name }}" 
+                                id="{{ form.institution_abbreviation.id_for_label }}"
                                 type="text"
                                 name="institution_abbreviation"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
@@ -39,9 +46,11 @@
                     </div>
             
                     <div class="flex-1"> <!-- Institution Email -->
-                        <label class="block text-sm">
+                        <label for="{{ form.institution_email.id_for_label }}" class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Institution Email</span>
                             <input
+                                name="{{ form.institution_email.name }}" 
+                                id="{{ form.institution_email.id_for_label }}"
                                 type="email"
                                 name="institution_email"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
@@ -51,9 +60,11 @@
                     </div>
                 </div>
             
-                <label class="block mt-4 text-sm">
-                    <span class="text-gray-700 dark:text-gray-400">Physical Address</span>
+                <label for="{{ form.institution_address.id_for_label }}" class="block mt-4 text-sm">
+                    <span class="text-gray-700 dark:text-gray-400">Institution Address</span>
                     <textarea
+                        name="{{ form.institution_address.name }}" 
+                        id="{{ form.institution_address.id_for_label }}"
                         name="physical_address"
                         class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                         rows="3"
@@ -63,9 +74,11 @@
             
                 <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mt-6">Contact Information</h2>
             
-                <label class="block mt-4 text-sm">
+                <label for="{{ form.contact_last_name.id_for_label }}"class="block mt-4 text-sm">
                     <span class="text-gray-700 dark:text-gray-400">Contact Last Name</span>
                     <input
+                        name="{{ form.contact_last_name.name }}" 
+                        id="{{ form.contact_last_name.id_for_label }}"
                         type="text"
                         name="contact_last_name"
                         class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
@@ -75,9 +88,11 @@
             
                 <div class="flex mt-4 space-x-4"> <!-- Flex container for side-by-side fields -->
                     <div class="flex-1"> <!-- Contact Other Names -->
-                        <label class="block text-sm">
+                        <label for="{{ form.contact_other_names.id_for_label }}" class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Contact Other Names</span>
                             <input
+                                name="{{ form.contact_other_names.name }}" 
+                                id="{{ form.contact_other_names.id_for_label }}"
                                 type="text"
                                 name="contact_other_names"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
@@ -87,10 +102,12 @@
                     </div>
             
                     <div class="flex-1"> <!-- Contact Phone -->
-                        <label class="block text-sm">
+                        <label for="{{ form.contact_phone.id_for_label }}" class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Contact Phone</span>
                             <input
-                                type="tel"
+                                type="text"
+                                name="{{ form.contact_phone.name }}" 
+                                id="{{ form.contact_phone.id_for_label }}"
                                 name="contact_phone"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                 required
@@ -101,9 +118,11 @@
             
                 <div class="flex mt-4 space-x-4"> <!-- Flex container for side-by-side fields -->
                     <div class="flex-1"> <!-- Contact Email -->
-                        <label class="block text-sm">
+                        <label  for="{{ form.contact_email.id_for_label }}" class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Contact Email</span>
                             <input
+                                name="{{ form.contact_email.name }}" 
+                                id="{{ form.contact_email.id_for_label }}"
                                 type="email"
                                 name="contact_email"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
@@ -113,9 +132,11 @@
                     </div>
             
                     <div class="flex-1"> <!-- Contact NRC Number -->
-                        <label class="block text-sm">
+                        <label for="{{ form.contact_nrc_number.id_for_label }}" class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Contact NRC Number</span>
                             <input
+                                name="{{ form.contact_nrc_number.name }}" 
+                                id="{{ form.contact_nrc_number.id_for_label }}"
                                 type="text"
                                 name="contact_nrc_number"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
@@ -124,12 +145,26 @@
                         </label>
                     </div>
                 </div>
+
+                <label for="{{ form.physical_address.id_for_label }}" class="block mt-4 text-sm">
+                    <span class="text-gray-700 dark:text-gray-400">Physical Address</span>
+                    <textarea
+                        name="{{ form.physical_address.name }}" 
+                        id="{{ form.physical_address.id_for_label }}"
+                        name="physical_address"
+                        class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                        rows="3"
+                        required
+                    ></textarea>
+                </label>
             
                 <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mt-6">Head of Institution</h2>
             
-                <label class="block mt-4 text-sm">
+                <label for="{{ form.head_full_name.id_for_label }}" class="block mt-4 text-sm">
                     <span class="text-gray-700 dark:text-gray-400">Full Name</span>
                     <input
+                        name="{{ form.head_full_name.name }}" 
+                        id="{{ form.head_full_name.id_for_label }}"
                         type="text"
                         name="head_of_institution_name"
                         class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
@@ -139,9 +174,11 @@
             
                 <div class="flex mt-4 space-x-4"> <!-- Flex container for side-by-side fields -->
                     <div class="flex-1"> <!-- Designation -->
-                        <label class="block text-sm">
+                        <label for="{{ form.head_designation.id_for_label }}" class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Designation</span>
                             <input
+                                name="{{ form.head_designation.name }}" 
+                                id="{{ form.head_designation.id_for_label }}"
                                 type="text"
                                 name="head_of_institution_designation"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
@@ -151,10 +188,12 @@
                     </div>
             
                     <div class="flex-1"> <!-- Phone -->
-                        <label class="block text-sm">
+                        <label for="{{ form.head_phone.id_for_label }}" class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Phone</span>
                             <input
-                                type="tel"
+                                name="{{ form.head_phone.name }}" 
+                                id="{{ form.head_phone.id_for_label }}"
+                                type="text"
                                 name="head_of_institution_phone"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                 required
@@ -165,9 +204,11 @@
             
                 <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mt-6">Application Details</h2>
             
-                <label class="block mt-4 text-sm">
+                <label for="{{ form.estimated_number_of_monitors.id_for_label }}" class="block mt-4 text-sm">
                     <span class="text-gray-700 dark:text-gray-400">Estimated Number of Monitors</span>
                     <input
+                        name="{{ form.estimated_number_of_monitors.name }}" 
+                        id="{{ form.estimated_number_of_monitors.id_for_label }}"
                         type="number"
                         name="estimated_number_of_monitors"
                         class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
@@ -178,9 +219,11 @@
                     </span>
                 </label>
             
-                <label class="block mt-4 text-sm">
+                <label for="{{ form.certificate_of_registration.id_for_label }}" class="block mt-4 text-sm">
                     <span class="text-gray-700 dark:text-gray-400">Certificate of Registration</span>
                     <input
+                        name="{{ form.certificate_of_registration.name }}" 
+                        id="{{ form.certificate_of_registration.id_for_label }}"
                         type="file"
                         name="certificate_of_registration"
                         accept=".pdf"
@@ -194,9 +237,11 @@
             
                 <div class="flex flex-wrap space-x-4 mt-4"> <!-- Flex container for side-by-side fields -->
                     <div class="flex-1"> <!-- List of Monitors -->
-                        <label class="block text-sm">
+                        <label for="{{ form.monitors_list.id_for_label }}" class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">List of Monitors</span>
                             <input
+                                name="{{ form.monitors_list.name }}" 
+                                id="{{ form.monitors_list.id_for_label }}"
                                 type="file"
                                 name="list_of_monitors"
                                 accept=".csv"
@@ -210,9 +255,11 @@
                     </div>
             
                     <div class="flex-1"> <!-- Introductory Letter -->
-                        <label class="block text-sm">
+                        <label for="{{ form.introductory_letter.id_for_label }}" class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Introductory Letter</span>
                             <input
+                                name="{{ form.introductory_letter.name }}" 
+                                id="{{ form.introductory_letter.id_for_label }}"
                                 type="file"
                                 name="introductory_letter"
                                 accept=".pdf"
@@ -228,9 +275,11 @@
             
                 <div class="flex flex-wrap space-x-4 mt-4"> <!-- Flex container for side-by-side fields -->
                     <div class="flex-1"> <!-- Identification Documents -->
-                        <label class="block text-sm">
+                        <label for="{{ form.identification_docs.id_for_label }}" class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Identification Documents</span>
                             <input
+                                name="{{ form.identification_docs.name }}" 
+                                id="{{ form.identification_docs.id_for_label }}"
                                 type="file"
                                 name="identification_documents"
                                 accept=".pdf"
@@ -244,9 +293,11 @@
                     </div>
             
                     <div class="flex-1"> <!-- Passport Size Photo -->
-                        <label class="block text-sm">
+                        <label for="{{ form.passport_photo.id_for_label }}" class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Passport Size Photo</span>
                             <input
+                                name="{{ form.passport_photo.name }}" 
+                                id="{{ form.passport_photo.id_for_label }}"
                                 type="file"
                                 name="passport_size_photo"
                                 accept=".jpg,.png"
@@ -260,9 +311,11 @@
                     </div>
                 </div>
             
-                <label class="block mt-4 text-sm">
+                <label for="{{ form.reason_for_application.id_for_label }}" class="block mt-4 text-sm">
                     <span class="text-gray-700 dark:text-gray-400">Reason for Application</span>
                     <textarea
+                        name="{{ form.reason_for_application.name }}" 
+                        id="{{ form.reason_for_application.id_for_label }}"
                         name="reason_for_application"
                         class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                         rows="3"
@@ -288,9 +341,9 @@
             
                 <button
                     type="submit"
-                    class="mt-4 w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                    class="mt-4 w-1/2 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
                 >
-                    Submit Application
+                    Submit
                 </button>
             </form>
             

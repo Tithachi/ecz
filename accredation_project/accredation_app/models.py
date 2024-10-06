@@ -48,6 +48,7 @@ class InternationalObserver(models.Model):
     ]
     approval = models.CharField(max_length=10, choices=APPROVAL_CHOICES, default='pending')
     created_on = models.DateTimeField(default=timezone.now)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
     
     def __str__(self):
         return f"{self.institution_name} - {self.country_of_origin}"
@@ -91,6 +92,7 @@ class LocalMonitor(models.Model):
     ]
     approval = models.CharField(max_length=10, choices=APPROVAL_CHOICES, default='pending')
     created_on = models.DateTimeField(default=timezone.now)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
 
     
     def __str__(self):

@@ -32,6 +32,7 @@ class LocalMonitorRegistrationForm(forms.ModelForm):
             'identification_docs',
             'passport_photo',
             'reason_for_application',
+            'physical_address',
         ]
 
 

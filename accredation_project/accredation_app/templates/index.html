@@ -39,7 +39,7 @@
                       <td class="px-4 py-3 text-sm">
                         Local Accreditation
                         <p class="text-xs text-gray-600 dark:text-gray-400">
-                          03/10/24
+                          {{ application.created_on }}
                         </p>
                       </td>
                       <td class="px-4 py-3">
@@ -56,20 +56,27 @@
                         </div>
                       </td>
                       <td class="px-4 py-3 text-sm">
-                        {{ application.last_name }} {{ application.other_names }}
+                        {{ application.contact_last_name }} {{ application.contact_other_names }}
                       </td>
 
 
 
 
                       <td class="px-4 py-3 text-xs">
-                        {% if application.status == 'approved' %}
+                        {% if application.approval == 'approved' %}
                         <span
                         class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
                       >
                         Approved
                       </span>
-                      {% else %}
+                      {% elif application.approval == 'rejected' %}
+
+                      <span
+                      class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700"
+                    >
+                      Rejected
+                    </span>
+                    {% else %}
                       <span
                       class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600"
                     >
@@ -77,8 +84,10 @@
                     </span>
                     {% endif %}
                       </td>
+                      {% if application.approval == 'approved' %}
                       <td class="px-4 py-3">
-                        <div class="flex items-center space-x-4 text-sm">
+                        
+                       <div class="flex items-center space-x-4 text-sm">
                           <button
                                 class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                 aria-label="View"
@@ -99,7 +108,7 @@
                           <button
                           class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                           aria-label="Download"
-                        >
+                           >
                           <svg
                             class="w-5 h-5"
                             aria-hidden="true"
@@ -113,11 +122,18 @@
                               d="M5 18a1 1 0 011-1h12a1 1 0 110 2H6a1 1 0 01-1-1z"
                             ></path>
                           </svg>
-                        </button>
-                        
+                         </button>
+                      </div>
+                    </td>
 
-                        </div>
+                      {% else %}
+
+                      
+
+                      <td class="px-4 py-3 text-sm">
+                        <em>Needs approval</em>
                       </td>
+                      {% endif %}
                     </tr>
                     {% endfor %}
 

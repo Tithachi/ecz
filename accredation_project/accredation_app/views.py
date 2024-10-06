@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
-from .models import AccreditationApplication, Approval, get_approvals_needed
+from .models import AccreditationApplication, Approval, get_approvals_needed, LocalMonitor, InternationalObserver
 from .forms import AccreditationApplicationForm, UserRegisterForm, UserLoginForm, ApprovalForm,AccreditationApplicationLOForm, LocalMonitorRegistrationForm
 from django.contrib.auth import logout as auth_logout
 from django.shortcuts import render, redirect, get_object_or_404
@@ -39,11 +39,27 @@ def local_form(request):
     if request.method == 'POST':
         form = LocalMonitorRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            return redirect('success_url')  # Redirect to a success page
+            local_monitor = form.save(commit=False)  # Don't save to DB yet
+            local_monitor.user = request.user  # Set the current user
+            local_monitor.save()  # Now save to the DB
+            return redirect('dashboard')  # Redirect to a success page
     else:
         form = LocalMonitorRegistrationForm()
+        
     return render(request, 'local_form.html', {'form': form})
+
+
+@login_required
+def user_dashboard(request):
+    local_applications = LocalMonitor.objects.filter(user=request.user)
+    international_applications = InternationalObserver.objects.filter(user=request.user)
+
+
+    context = {
+        'local_applications': local_applications,
+        'international_applications': international_applications,
+    }
+    return render(request, 'index.html', context)
 
 
 
@@ -156,16 +172,7 @@ def reject_application(request, application_id):
     application.save()
     return redirect('manage_applications')
 
-@login_required
-def user_dashboard(request):
-    local_applications = AccreditationApplicationLO.objects.filter(created_by=request.user)
-    international_applications = AccreditationApplication.objects.filter(created_by=request.user)
 
-    context = {
-        'local_applications': local_applications,
-        'international_applications': international_applications,
-    }
-    return render(request, 'index.html', context)
 
 # @login_required
 
