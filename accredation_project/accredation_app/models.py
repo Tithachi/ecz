@@ -3,11 +3,16 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils import timezone
+import random
+import string
 
 
 ###############################          START OF NEW MODELS        ################################################
 
 class InternationalObserver(models.Model):
+    def generate_certificate_no():
+        random_number = ''.join(random.choices(string.digits, k=5))
+        return f"ECZIO{random_number}"
     # Institution details
     institution_name = models.CharField(max_length=255,null=True, blank=True)  # Institution name
     institution_abbreviation = models.CharField(max_length=50,null=True, blank=True)  # Institution abbreviation
@@ -49,13 +54,17 @@ class InternationalObserver(models.Model):
     approval = models.CharField(max_length=10, choices=APPROVAL_CHOICES, default='pending')
     created_on = models.DateTimeField(default=timezone.now)
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
+    certificate_number = models.CharField(max_length=10,unique=True,default=generate_certificate_no, editable=False)
     
     def __str__(self):
-        return f"{self.institution_name} - {self.country_of_origin}"
+        return self.certificate_number
     
     
     
 class LocalMonitor(models.Model):
+    def generate_certificate_no():
+        random_number = ''.join(random.choices(string.digits, k=5))
+        return f"ECZLO{random_number}"
     # Institution details
     institution_name = models.CharField(max_length=255)  # Institution name
     institution_abbreviation = models.CharField(max_length=50)  # Institution abbreviation
@@ -93,10 +102,11 @@ class LocalMonitor(models.Model):
     approval = models.CharField(max_length=10, choices=APPROVAL_CHOICES, default='pending')
     created_on = models.DateTimeField(default=timezone.now)
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
+    certificate_number = models.CharField(max_length=10,unique=True,default=generate_certificate_no, editable=False)
 
     
     def __str__(self):
-        return self.institution_name
+        return self.certificate_number
 
 
 
@@ -107,54 +117,6 @@ class AccreditationType(models.Model):
 
     def __str__(self):
         return self.name
-    
-
-# class AccreditationApplication(models.Model):
-#     STATUS_CHOICES = [
-#         ('PENDING', 'Pending'),
-#         ('APPROVED', 'Approved'),
-#         ('REJECTED', 'Rejected'),
-#     ]
-#     institution_name = models.CharField(max_length=255)
-#     contact_person = models.CharField(max_length=255)
-#     email = models.EmailField()
-#     phone = models.CharField(max_length=20)
-#     accreditation_type = models.CharField(max_length=25, default='International Observers')
-#     address = models.TextField()
-#     document = models.FileField(upload_to='documents/')
-#     nrc_front = models.ImageField(upload_to='nrcs/')
-#     nrc_back = models.ImageField(upload_to='nrcs/')
-#     photo = models.ImageField(upload_to='photos/')
-#     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
-#     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='international_applications')
-#     created = models.DateTimeField(auto_now_add=True)
-
-#     def __str__(self):
-#         return self.institution_name
-    
-
-# class AccreditationApplicationLO(models.Model):
-#     STATUS_CHOICES = [
-#         ('PENDING', 'Pending'),
-#         ('APPROVED', 'Approved'),
-#         ('REJECTED', 'Rejected'),
-#     ]
-#     institution_name = models.CharField(max_length=255)
-#     contact_person = models.CharField(max_length=255)
-#     email = models.EmailField()
-#     phone = models.CharField(max_length=20)
-#     accreditation_type = models.CharField(max_length=20, default='Local Observers')
-#     address = models.TextField()
-#     document = models.FileField(upload_to='documents/')
-#     nrc_front = models.ImageField(upload_to='nrcs/')
-#     nrc_back = models.ImageField(upload_to='nrcs/')
-#     photo = models.ImageField(upload_to='photos/')
-#     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
-#     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='local_applications')
-#     created = models.DateTimeField(auto_now_add=True)
-
-#     def __str__(self):
-#         return self.institution_name
 
 class AccreditationApplication(models.Model):
     # Organization Details

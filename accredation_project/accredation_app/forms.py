@@ -2,7 +2,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import AccreditationApplication,AccreditationType, AccreditationApplicationLO, LocalMonitor
+from .models import AccreditationApplication,AccreditationType, AccreditationApplicationLO, LocalMonitor, InternationalObserver
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
@@ -25,6 +25,8 @@ class LocalMonitorRegistrationForm(forms.ModelForm):
             'head_full_name',
             'head_designation',
             'head_phone',
+            
+            
             'certificate_of_registration',
             'estimated_number_of_monitors',
             'monitors_list',
@@ -33,6 +35,38 @@ class LocalMonitorRegistrationForm(forms.ModelForm):
             'passport_photo',
             'reason_for_application',
             'physical_address',
+        ]
+        
+class InternationalMonitorRegistrationForm(forms.ModelForm):
+    class Meta:
+        model = InternationalObserver
+        fields = [
+            'institution_name',
+            'institution_abbreviation',
+            'institution_email',
+            'institution_address',
+            'contact_last_name',
+            'contact_other_names',
+            'contact_phone',
+            'contact_email',
+            'contact_nrc_number',
+            'head_full_name',
+            'head_designation',
+            'head_phone',
+            'organization_clearance',
+            'estimated_number_of_observers',
+            
+            
+            'observers_list',
+            'introductory_letter',
+            'identification_docs',
+            'passport_photo',
+            'city_of_stay',
+            'lodging_facility',
+            'duration_of_stay',
+            'country_of_origin',
+            'city_of_origin',
+            'mission_statement',
         ]
 
 

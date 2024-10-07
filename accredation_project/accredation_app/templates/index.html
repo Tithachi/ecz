@@ -13,10 +13,6 @@
             </h3>
             <!-- CTA -->
             
-            <!-- Cards -->
-            
-
-            <!-- New Table -->
             <div class="w-full overflow-hidden rounded-lg shadow-xs">
               <div class="w-full overflow-x-auto">
                 <table class="w-full whitespace-no-wrap">
@@ -24,6 +20,7 @@
                     <tr
                       class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
                     >
+                      <th class="px-4 py-3">Registration No.</th>
                       <th class="px-4 py-3">Application Type</th>
                       <th class="px-4 py-3">Institution</th>
                       <th class="px-4 py-3">Contact Person</th>
@@ -36,182 +33,218 @@
                   >
                   {% for application in local_applications %}
                     <tr class="text-gray-700 dark:text-gray-400">
-                      <td class="px-4 py-3 text-sm">
-                        Local Accreditation
-                        <p class="text-xs text-gray-600 dark:text-gray-400">
-                          {{ application.created_on }}
-                        </p>
-                      </td>
                       <td class="px-4 py-3">
                         <div class="flex items-center text-sm">
+                          <!-- Avatar with inset shadow -->
                           
-                            <div
-                              class="absolute inset-0 rounded-full shadow-inner"
-                              aria-hidden="true"
-                            ></div>
-                          </div>
                           <div>
-                            <p class="font-semibold">{{ application.institution_name }}</p>
+                            <p class="font-semibold">{{ application.certificate_number }}</p>
+                            <p class="text-xs text-gray-600 dark:text-gray-400">
+                              {{ application.created_on }}
+                            </p>
                           </div>
                         </div>
                       </td>
                       <td class="px-4 py-3 text-sm">
-                        {{ application.contact_last_name }} {{ application.contact_other_names }}
+                        Local Accreditation
                       </td>
-
-
-
+                      <td class="px-4 py-3 text-sm">
+                        {{ application.institution_name }}
+                      </td>
+                      
+                      <td class="px-4 py-3 text-sm">
+                        {{ application.contact_other_names }}  {{ application.contact_last_name }}
+                      </td>
+                      
 
                       <td class="px-4 py-3 text-xs">
                         {% if application.approval == 'approved' %}
-                        <span
-                        class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
-                      >
-                        Approved
-                      </span>
-                      {% elif application.approval == 'rejected' %}
-
-                      <span
-                      class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700"
-                    >
-                      Rejected
-                    </span>
-                    {% else %}
-                      <span
-                      class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600"
-                    >
-                      Pending
-                    </span>
-                    {% endif %}
-                      </td>
-                      {% if application.approval == 'approved' %}
-                      <td class="px-4 py-3">
-                        
-                       <div class="flex items-center space-x-4 text-sm">
-                          <button
-                                class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                                aria-label="View"
-                              >
-                                <svg
-                                  class="w-5 h-5"
-                                  aria-hidden="true"
-                                  fill="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    d="M12 4.5c-4.5 0-8.355 2.904-10 7.5 1.645 4.596 5.5 7.5 10 7.5s8.355-2.904 10-7.5c-1.645-4.596-5.5-7.5-10-7.5zm0 13c-3.51 0-6.5-2.69-6.5-5.5S8.49 6.5 12 6.5 18.5 9.19 18.5 12 15.51 17.5 12 17.5zm0-9a3.5 3.5 0 100 7 3.5 3.5 0 000-7z"
-                                  ></path>
-                                </svg>
-                              </button>
-
-
-                          <button
-                          class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                          aria-label="Download"
-                           >
-                          <svg
-                            class="w-5 h-5"
-                            aria-hidden="true"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M12 3a1 1 0 011 1v10.586l3.293-3.293a1 1 0 111.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L11 14.586V4a1 1 0 011-1z"
-                            ></path>
-                            <path
-                              d="M5 18a1 1 0 011-1h12a1 1 0 110 2H6a1 1 0 01-1-1z"
-                            ></path>
-                          </svg>
-                         </button>
-                      </div>
-                    </td>
-
-                      {% else %}
-
-                      
-
-                      <td class="px-4 py-3 text-sm">
-                        <em>Needs approval</em>
-                      </td>
-                      {% endif %}
-                    </tr>
-                    {% endfor %}
-
-                    {% for application in international_applications %}
-                    <tr class="text-gray-700 dark:text-gray-400">
-                      <td class="px-4 py-3 text-sm">
-                        International Accreditation
-                        <p class="text-xs text-gray-600 dark:text-gray-400">
-                          23/09/24
-                        </p>
-                      </td>
-                      <td class="px-4 py-3">
-                        <div class="flex items-center text-sm">
-                          
-                            <div
-                              class="absolute inset-0 rounded-full shadow-inner"
-                              aria-hidden="true"
-                            ></div>
-                          </div>
-                          <div>
-                            <p class="font-semibold">{{ application.last_name }}</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="px-4 py-3 text-sm">
-                        {{ application.other_names }}
-                      </td>
-                      <td class="px-4 py-3 text-xs">
                         <span
                           class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
                         >
                           Approved
                         </span>
+                        {% elif application.approval == 'rejected' %}
+                        <span
+                          class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700"
+                        >
+                          Rejected
+                        </span>
+                        {% else %}
+
+                        <span
+                        class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600"
+                      >
+                        Pending
+                      </span>
+
+                        {% endif %}
                       </td>
+
+
                       <td class="px-4 py-3">
                         <div class="flex items-center space-x-4 text-sm">
-                          <button
+                          {% if application.approval == 'approved' %}
+                          <a
+                              href="{% url 'view_local_cert' application.id %}"
                               class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                               aria-label="View"
-                            >
-                              <svg
-                                class="w-5 h-5"
-                                aria-hidden="true"
-                                fill="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  d="M12 4.5c-4.5 0-8.355 2.904-10 7.5 1.645 4.596 5.5 7.5 10 7.5s8.355-2.904 10-7.5c-1.645-4.596-5.5-7.5-10-7.5zm0 13c-3.51 0-6.5-2.69-6.5-5.5S8.49 6.5 12 6.5 18.5 9.19 18.5 12 15.51 17.5 12 17.5zm0-9a3.5 3.5 0 100 7 3.5 3.5 0 000-7z"
-                                ></path>
-                              </svg>
-                            </button>
-
-                            <button
-                            class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                            aria-label="Download"
                           >
-                            <svg
+                              <svg
+                                  class="w-5 h-5"
+                                  aria-hidden="true"
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
+                              >
+                                  <path
+                                      d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
+                                  ></path>
+                              </svg>
+                          </a>
+                          <a
+                          href="{% url 'download_local_cert' application.id %}"
+                          class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                          aria-label="Download"
+                      >
+                          <svg
                               class="w-5 h-5"
                               aria-hidden="true"
                               fill="currentColor"
                               viewBox="0 0 24 24"
-                            >
+                          >
                               <path
-                                d="M12 3a1 1 0 011 1v10.586l3.293-3.293a1 1 0 111.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L11 14.586V4a1 1 0 011-1z"
+                                  d="M12 16l4-4H13V4h-2v8H8l4 4z"
                               ></path>
                               <path
-                                d="M5 18a1 1 0 011-1h12a1 1 0 110 2H6a1 1 0 01-1-1z"
+                                  d="M5 18h14v2H5v-2z"
                               ></path>
-                            </svg>
-                          </button>
+                          </svg>
+                      </a>
+                      
+
+
+                          {% else %}
+                            Needs approval...
                         </div>
+                        {% endif %}
                       </td>
                     </tr>
                     {% endfor %}
 
+
+
+
+
+                    {% for application in international_applications %}
+                    <tr class="text-gray-700 dark:text-gray-400">
+                      <td class="px-4 py-3">
+                        <div class="flex items-center text-sm">
+                          <!-- Avatar with inset shadow -->
+                          
+                          <div>
+                            <p class="font-semibold">{{ application.certificate_number }}</p>
+                            <p class="text-xs text-gray-600 dark:text-gray-400">
+                              {{ application.created_on }}
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 text-sm">
+                        International Accreditation
+                      </td>
+                      <td class="px-4 py-3 text-sm">
+                        {{ application.institution_name }}
+                      </td>
+                      
+                      <td class="px-4 py-3 text-sm">
+                        {{ application.contact_other_names }}  {{ application.contact_last_name }}
+                      </td>
+                      
+
+                      <td class="px-4 py-3 text-xs">
+                        {% if application.approval == 'approved' %}
+                        <span
+                          class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
+                        >
+                          Approved
+                        </span>
+                        {% elif application.approval == 'rejected' %}
+                        <span
+                          class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700"
+                        >
+                          Rejected
+                        </span>
+                        {% else %}
+
+                        <span
+                        class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600"
+                      >
+                        Pending
+                      </span>
+
+                        {% endif %}
+                      </td>
+
+
+                      <td class="px-4 py-3">
+                        <div class="flex items-center space-x-4 text-sm">
+                          {% if application.approval == 'approved' %}
+                          <a
+                              href="{% url 'view_international_cert' application.id %}"
+                              class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                              aria-label="View"
+                          >
+                              <svg
+                                  class="w-5 h-5"
+                                  aria-hidden="true"
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
+                              >
+                                  <path
+                                      d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
+                                  ></path>
+                              </svg>
+                          </a>
+                          <a
+                          href="{% url 'download_international_cert' application.id %}"
+                          class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                          aria-label="Download"
+                      >
+                          <svg
+                              class="w-5 h-5"
+                              aria-hidden="true"
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                          >
+                              <path
+                                  d="M12 16l4-4H13V4h-2v8H8l4 4z"
+                              ></path>
+                              <path
+                                  d="M5 18h14v2H5v-2z"
+                              ></path>
+                          </svg>
+                      </a>
+                      
+
+
+                          {% else %}
+                            Needs approval...
+                        </div>
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% endfor %}
+
+
+
+
+
+
                   </tbody>
                 </table>
               </div>
+            </div>
+          </div>
               
                 
               </div>

@@ -15,6 +15,11 @@ urlpatterns = [
     path('local_registration/', views.local_registration, name='local_registration'),
     path('international_registration/', views.international_registration, name='international_registration'),
     path('local_form/', views.local_form, name='local_form'),
+    path('view_local_cert/<int:entry_id>/', views.view_local_cert, name='view_local_cert'),
+    path('download_local_cert/<int:entry_id>/', views.download_local_cert, name='download_local_cert'),
+    path('international_form/', views.international_form, name='international_form'),
+    path('view_international_cert/<int:entry_id>/', views.view_international_cert, name='view_international_cert'),
+    path('download_international_cert/<int:entry_id>/', views.download_international_cert, name='download_international_cert'),
     
     ###############################          END OF NEW URLS        ################################################
     
@@ -35,6 +40,8 @@ urlpatterns = [
     path('admin_dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('application/<int:application_id>/', views.view_application, name='view_application'),
     path('approve_application/<int:application_id>/', views.approve_application, name='approve_application'),
+    path('view_local_cert/<int:entry_id>/', views.view_local_cert, name='view_local_cert'),
+    path('download_local_cert/<int:entry_id>/', views.download_local_cert, name='download_local_cert'),
     # path('download_application/<int:application_id>/', views.download_application, name='download_application'),
     
 ]

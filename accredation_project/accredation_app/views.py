@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from .models import AccreditationApplication, Approval, get_approvals_needed, LocalMonitor, InternationalObserver
-from .forms import AccreditationApplicationForm, UserRegisterForm, UserLoginForm, ApprovalForm,AccreditationApplicationLOForm, LocalMonitorRegistrationForm
+from .forms import AccreditationApplicationForm, UserRegisterForm, UserLoginForm, ApprovalForm,AccreditationApplicationLOForm, LocalMonitorRegistrationForm, InternationalMonitorRegistrationForm
 from django.contrib.auth import logout as auth_logout
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
@@ -23,10 +23,147 @@ from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from PyPDF2 import PdfReader, PdfWriter 
 from .models import AccreditationApplication, AccreditationApplicationLO
-# from django.template.loader import render_to_string
-# from weasyprint import HTML
+from .pdf_utils import generate_certificate_with_watermark
+
+
 
 ###############################          START OF NEW VIEWS        ################################################
+
+def view_local_cert(request, entry_id):
+    # Fetch the LocalMonitor entry from the database
+    local_monitor = LocalMonitor.objects.get(id=entry_id)
+
+    # Convert LocalMonitor object to dictionary format
+    local_monitor_data = {
+        'institution_name': local_monitor.institution_name,
+        'institution_abbreviation': local_monitor.institution_abbreviation,
+        'institution_email': local_monitor.institution_email,
+        'institution_address': local_monitor.institution_address,
+        'contact_last_name': local_monitor.contact_last_name,
+        'contact_other_names': local_monitor.contact_other_names,
+        'contact_phone': local_monitor.contact_phone,
+        'contact_email': local_monitor.contact_email,
+        'contact_nrc_number': local_monitor.contact_nrc_number,
+        'approval': local_monitor.get_approval_display(),  # Assuming you have choices for approval
+        'created_on': local_monitor.created_on,
+        'certificate_number': local_monitor.certificate_number,
+    }
+
+    # Create a file-like buffer to receive PDF data
+    buffer = BytesIO()
+
+    # Generate the PDF with actual data
+    generate_certificate_with_watermark(local_monitor_data, buffer, 'C:/Users/Timothy/Desktop/PDF Samples/ecz_cert.png')
+
+    # File pointer goes to the beginning of the buffer
+    buffer.seek(0)
+
+    # Return the PDF as a response for viewing in the browser
+    return HttpResponse(buffer, content_type='application/pdf')
+
+# Download PDF as a file
+def download_local_cert(request, entry_id):
+    # Fetch the LocalMonitor entry from the database
+    local_monitor = get_object_or_404(LocalMonitor, id=entry_id)
+
+    # Convert LocalMonitor object to dictionary format
+    local_monitor_data = {
+        'institution_name': local_monitor.institution_name,
+        'institution_abbreviation': local_monitor.institution_abbreviation,
+        'institution_email': local_monitor.institution_email,
+        'institution_address': local_monitor.institution_address,
+        'contact_last_name': local_monitor.contact_last_name,
+        'contact_other_names': local_monitor.contact_other_names,
+        'contact_phone': local_monitor.contact_phone,
+        'contact_email': local_monitor.contact_email,
+        'contact_nrc_number': local_monitor.contact_nrc_number,
+        'approval': local_monitor.get_approval_display(),
+        'created_on': local_monitor.created_on,
+        'certificate_number': local_monitor.certificate_number,
+    }
+
+    # Create a file-like buffer to receive PDF data
+    buffer = BytesIO()
+
+    # Generate the PDF with actual data
+    generate_certificate_with_watermark(local_monitor_data, buffer, 'C:/Users/Timothy/Desktop/PDF Samples/ecz_cert.png')
+
+    # File pointer goes to the beginning of the buffer
+    buffer.seek(0)
+
+    # Create response to download the PDF
+    response = HttpResponse(buffer, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{local_monitor.institution_name}_{local_monitor.certificate_number}.pdf"'
+
+    return response
+
+def view_international_cert(request, entry_id):
+    # Fetch the LocalMonitor entry from the database
+    international_monitor = InternationalObserver.objects.get(id=entry_id)
+
+    # Convert LocalMonitor object to dictionary format
+    international_monitor_data = {
+        'institution_name': international_monitor.institution_name,
+        'institution_abbreviation': international_monitor.institution_abbreviation,
+        'institution_email': international_monitor.institution_email,
+        'institution_address': international_monitor.institution_address,
+        'contact_last_name': international_monitor.contact_last_name,
+        'contact_other_names': international_monitor.contact_other_names,
+        'contact_phone': international_monitor.contact_phone,
+        'contact_email': international_monitor.contact_email,
+        'contact_nrc_number': international_monitor.contact_nrc_number,
+        'approval': international_monitor.get_approval_display(),  # Assuming you have choices for approval
+        'created_on': international_monitor.created_on,
+        'certificate_number': international_monitor.certificate_number,
+    }
+
+    # Create a file-like buffer to receive PDF data
+    buffer = BytesIO()
+
+    # Generate the PDF with actual data
+    generate_certificate_with_watermark(international_monitor_data, buffer, 'C:/Users/Timothy/Desktop/PDF Samples/ecz_cert.png')
+
+    # File pointer goes to the beginning of the buffer
+    buffer.seek(0)
+
+    # Return the PDF as a response for viewing in the browser
+    return HttpResponse(buffer, content_type='application/pdf')
+
+# Download PDF as a file
+def download_international_cert(request, entry_id):
+    # Fetch the LocalMonitor entry from the database
+    international_monitor = get_object_or_404(LocalMonitor, id=entry_id)
+
+    # Convert LocalMonitor object to dictionary format
+    international_monitor_data = {
+        'institution_name': international_monitor.institution_name,
+        'institution_abbreviation': international_monitor.institution_abbreviation,
+        'institution_email': international_monitor.institution_email,
+        'institution_address': international_monitor.institution_address,
+        'contact_last_name': international_monitor.contact_last_name,
+        'contact_other_names': international_monitor.contact_other_names,
+        'contact_phone': international_monitor.contact_phone,
+        'contact_email': international_monitor.contact_email,
+        'contact_nrc_number': international_monitor.contact_nrc_number,
+        'approval': international_monitor.get_approval_display(),
+        'created_on': international_monitor.created_on,
+        'certificate_number': international_monitor.certificate_number,
+    }
+
+    # Create a file-like buffer to receive PDF data
+    buffer = BytesIO()
+
+    # Generate the PDF with actual data
+    generate_certificate_with_watermark(international_monitor_data, buffer, 'C:/Users/Timothy/Desktop/PDF Samples/ecz_cert.png')
+
+    # File pointer goes to the beginning of the buffer
+    buffer.seek(0)
+
+    # Create response to download the PDF
+    response = HttpResponse(buffer, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{international_monitor.institution_name}_{international_monitor.certificate_number}.pdf"'
+
+    return response
 
 def local_registration(request):
     
@@ -34,6 +171,7 @@ def local_registration(request):
 
 def international_registration(request):
     return render(request, 'international_registration.html')
+
 
 def local_form(request):
     if request.method == 'POST':
@@ -47,6 +185,19 @@ def local_form(request):
         form = LocalMonitorRegistrationForm()
         
     return render(request, 'local_form.html', {'form': form})
+
+def international_form(request):
+    if request.method == 'POST':
+        form = InternationalMonitorRegistrationForm(request.POST, request.FILES)
+        if form.is_valid():
+            international_monitor = form.save(commit=False)  # Don't save to DB yet
+            international_monitor.user = request.user  # Set the current user
+            international_monitor.save()  # Now save to the DB
+            return redirect('dashboard')  # Redirect to a success page
+    else:
+        form = InternationalMonitorRegistrationForm()
+        
+    return render(request, 'international_form.html', {'form': form})
 
 
 @login_required
@@ -174,162 +325,6 @@ def reject_application(request, application_id):
 
 
 
-# @login_required
-
-# def download_certificate(request, application_id):
-#      # Try to fetch the application from both models
-#     application = get_object_or_404(AccreditationApplication, id=application_id)
-#     local_application = None
-
-#     if not application:
-#         local_application = get_object_or_404(AccreditationApplicationLO, id=application_id)
-
-#     # Prepare context based on which application is found
-#     context = {
-#         'application': application,
-#         'local_application': local_application,
-#     }
-
-#     # Render the template with application data
-#     html_string = render_to_string('certificate_template.html', {'application': application})
-#     html = HTML(string=html_string)
-
-#     # Generate PDF
-#     pdf = html.write_pdf()
-
-#     # Return as HTTP response
-#     response = HttpResponse(pdf, content_type='application/pdf')
-#     response['Content-Disposition'] = f'attachment; filename="certificate_{application_id}.pdf"'
-#     return response
-# # def download_certificate(request, application_id):
-#     application = get_object_or_404(AccreditationApplication, pk=application_id)
-
-#     # Create a file-like buffer to receive PDF data
-#     buffer = BytesIO()
-
-#     # Create the PDF object using ReportLab's SimpleDocTemplate
-#     doc = SimpleDocTemplate(buffer, pagesize=letter)
-
-#     # Define styles for the certificate
-#     title_style = ParagraphStyle(
-#         'Title',
-#         fontSize=24,
-#         spaceAfter=20,
-#         textColor=HexColor('#029053')  # Primary Color: Dark Green
-#     )
-
-#     centered_style = ParagraphStyle(
-#         'CenteredStyle',
-#         parent=title_style,
-#         alignment=1  # 1 is for center alignment
-#     )
-
-#     normal_style = ParagraphStyle(
-#          'CenteredStyle',
-#         fontSize=12,
-#         spaceAfter=10,
-#         textColor=HexColor('#000000'),  # Default text color (black)
-#         alignment=1 # 1 is for center alignment
-#     )
-
-#     # Function to draw the logo on the canvas
-#     def draw_logo(canvas, doc):
-#         logo_path = 'C:/dev/accreditation/static/img/logo.png'
-#         canvas.saveState()
-#         canvas.drawImage(logo_path, (doc.width - 4 * inch) / 2, doc.height + 0.5 * inch, width=4 * inch, height=1 * inch, preserveAspectRatio=True, anchor='n')
-#         canvas.restoreState()
-
-#     # Function to draw the address below the top logo
-#     def draw_address(canvas, doc):
-#         address_text = "Elections House, Haile Selassie Avenue, Longacres, P.O Box 50274, 10101 Lusaka, Zambia."
-#         canvas.setFont("Helvetica", 10)
-#         canvas.drawCentredString(doc.width / 2, doc.height - 0.75 * inch, address_text)
-
-#     # Function to draw social media links
-#     def draw_socials(canvas, doc):
-#         # Define the positions and styles for social media icons and handles
-#         social_x = 1 * inch
-#         social_y = 0.75 * inch
-#         icon_size = 0.5 * inch
-
-#         # Facebook
-#         facebook_logo = 'C:/dev/accreditation/static/img/facebook.png'
-#         canvas.drawImage(facebook_logo, social_x, social_y, width=icon_size, height=icon_size)
-#         canvas.setFont("Helvetica", 10)
-#         canvas.drawString(social_x + icon_size + 0.1 * inch, social_y + 0.1 * inch, "Facebook")
-
-#         # Twitter
-#         twitter_logo = 'C:/dev/accreditation/static/img/twitter.png'
-#         canvas.drawImage(twitter_logo, social_x + 2 * inch, social_y, width=icon_size, height=icon_size)
-#         canvas.setFont("Helvetica", 10)
-#         canvas.drawString(social_x + 2 * inch + icon_size + 0.1 * inch, social_y + 0.1 * inch, "Twitter")
-
-#         # Instagram
-#         instagram_logo = 'C:/dev/accreditation/static/img/instagram.png'
-#         canvas.drawImage(instagram_logo, social_x + 4 * inch, social_y, width=icon_size, height=icon_size)
-#         canvas.setFont("Helvetica", 10)
-#         canvas.drawString(social_x + 4 * inch + icon_size + 0.1 * inch, social_y + 0.1 * inch, "Instagram")
-
-#     # Function to draw the watermark logo
-#     def draw_watermark(canvas, doc):
-#         watermark_path = 'C:/dev/accreditation/static/accreditation_app/img/watermark_logo.png'
-#         canvas.saveState()
-#         canvas.setFillAlpha(0.5)  # Set transparency for watermark
-#         canvas.drawImage(watermark_path, (doc.width - 6 * inch) / 2, (doc.height - 8 * inch) / 2, width=6 * inch, height=8 * inch, preserveAspectRatio=True, anchor='c')
-#         canvas.restoreState()
-
-#     # Function to draw the green line above the social media links
-#     def draw_green_line(canvas, doc):
-#         canvas.setStrokeColor(green)
-#         canvas.setLineWidth(2)
-#         canvas.line(0.5 * inch, 1 * inch, doc.width - 0.5 * inch, 1 * inch)
-
-#     # Composite function to draw all elements on the page
-#     def draw_elements(canvas, doc):
-#         draw_watermark(canvas, doc)
-#         draw_logo(canvas, doc)
-#         draw_address(canvas, doc)
-#         draw_green_line(canvas, doc)
-#         draw_socials(canvas, doc)
-
-#     # Build the PDF content
-#     elements = []
-
-#     elements.append(Paragraph('Electoral Commission of Zambia (ECZ)', title_style))
-#     elements.append(Spacer(1, 0.25 * inch))
-#     elements.append(Paragraph('Certificate of Accreditation', centered_style))
-#     elements.append(Spacer(1, 0.5 * inch))
-
-#     # Content with specific formatting as separate paragraphs
-#     content_lines = [
-#         f"This is to certify that",
-#         f"{application.contact_person}",
-#         f"is accredited as {application.accreditation_type.name}",
-#         f" Representative for {application.institution_name}",
-#         f"during the 2026",
-#         f"General elections."
-#     ]
-
-#     # Add each line as a separate paragraph with normal style
-#     for line in content_lines:
-#         elements.append(Paragraph(line, normal_style))
-#         elements.append(Spacer(1, 0.1 * inch))  # Optional spacer for line spacing
-
-#     # Add elements to the PDF document
-#     doc.build(elements, onFirstPage=draw_elements, onLaterPages=draw_elements)
-
-#     # Move to the beginning of the buffer to start reading
-#     buffer.seek(0)
-
-#     # Prepare the HTTP response
-#     response = HttpResponse(content_type='application/pdf')
-#     file_name = f"certificate_{application.accreditation_type.name}_{application_id}.pdf"
-#     response['Content-Disposition'] = f'attachment; filename="{file_name}"'
-
-#     # Write the PDF content to the response
-#     response.write(buffer.getvalue())
-#     return response
-
 def is_admin(user):
     return user.is_superuser
 
@@ -387,30 +382,3 @@ def reject_application(request, application_id):
     application.save()
     return redirect('admin_dashboard')
 
-# @login_required
-# @user_passes_test(is_admin)
-# def download_application(request, application_id):
-#     application = get_object_or_404(AccreditationApplication, id=application_id)
-#     buffer = generate_application_pdf(application)
-#     return FileResponse(buffer, as_attachment=True, filename=f"{application.institution_name}_{application.accreditation_type}_application.pdf")
-
-# def generate_application_pdf(application):
-#     buffer = io.BytesIO()
-#     doc = SimpleDocTemplate(buffer, pagesize=letter)
-#     styles = getSampleStyleSheet()
-
-#     elements = []
-#     elements.append(Paragraph('Accreditation Application', styles['Title']))
-#     elements.append(Spacer(1, 12))
-    
-#     elements.append(Paragraph(f'Institution Name: {application.institution_name}', styles['Normal']))
-#     elements.append(Paragraph(f'Contact Person: {application.contact_person}', styles['Normal']))
-#     elements.append(Paragraph(f'Email: {application.email}', styles['Normal']))
-#     elements.append(Paragraph(f'Phone: {application.phone}', styles['Normal']))
-#     elements.append(Paragraph(f'Accreditation Type: {application.accreditation_type}', styles['Normal']))
-#     elements.append(Paragraph(f'Address: {application.address}', styles['Normal']))
-
-#     doc.build(elements)
-#     buffer.seek(0)
-
-#     return buffer

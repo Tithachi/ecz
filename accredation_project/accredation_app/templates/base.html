@@ -347,7 +347,7 @@
                 </button>
               </li>
               <!-- Notifications menu -->
-              <li class="relative">
+              {% comment %} <li class="relative">
                 <button
                   class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple"
                   @click="toggleNotificationsMenu"
@@ -416,9 +416,15 @@
                     </li>
                   </ul>
                 </template>
-              </li>
+              </li> {% endcomment %}
+              
+              
+              
+              
+              
+              
               <!-- Profile menu -->
-              <li class="relative">
+              {% comment %} <li class="relative">
                 <button
                   class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
                   @click="toggleProfileMenu"
@@ -512,7 +518,7 @@
                     </li>
                   </ul>
                 </template>
-              </li>
+              </li> {% endcomment %}
             </ul>
           </div>
         </header>
